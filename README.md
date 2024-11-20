@@ -60,3 +60,77 @@
 #### Repository secret과 환경변수
 - GitHub Secrets는 보안 정보(AWS 키, S3 버킷 이름 등)를 저장하고 워크플로우에서 사용하는 기능이다.
 - 환경변수로 지정된 Secret 값은 보안이 유지된 상태로 액션 내에서 참조된다. `(${{ secrets.KEY_NAME }})`
+
+--------------
+
+## CDN과 성능최적화
+
+### CDN 도입 전과 도입 후의 성능 개선 보고서
+
+#### 목표
+- 우선 같은 프로젝트를 Amazon S3 버킷을 활용하여 정적 파일을 먼저 배포했는데, S3는 글로벌 사용자에게 동일한 성능을 보장하기 어렵고, 네트워크 지연(latency)이 발생할 가능성이 있다. 이를 해결하기 위해 Amazon CloudFront(CDN)를 도입하여 콘텐츠 배포의 성능을 최적화하고, 사용자 경험을 개선하고자 한다. CDN은 전 세계에 분산된 서버 네트워크를 사용하여 사용자에게 더 빠르고 안정적으로 웹 콘텐츠를 제공하는 시스템이며 CDN을 사용하면 웹사이트의 로딩 속도가 빨라지고, 서버의 부하가 줄어든다. 
+
+#### 배포 환경
+- 대상 애플리케이션: Next.js 기반 정적 웹사이트
+- 배포 플랫폼: AWS (S3 + CloudFront)
+
+#### S3와 CloudFront 비교 
+
+- S3 
+
+![Alt text](image-3.png)
+   - 상대적으로 응답 속도가 느림
+
+- CloudFront 
+
+![Alt text](image-5.png)
+   - 응답 속도 빨라짐
+   - 캐시 적용 (X-cache)
+   - 파일 크기 축소
+
+#### 성능 비교 (Chrome DevTools Network tab)
+
+- 크기 (Network tab 비교)
+|파일|S3|Cloud Front|
+|------|---|---|
+|HTML|12.4 kB|3.2 kB|
+|CSS|9.0 kB|2.9 kB|
+|JS|166 kB|50.5 kB|
+
+- 시간 (Network tab 비교) 
+|파일|S3|Cloud Front|
+|------|---|---|
+|HTML|2.71 s|76 ms|
+|CSS|444 ms|397 ms|
+|JS|1.08 s|926 ms|
+
+#### 성능 비교 (Lighthouse)
+
+- S3 bucket
+
+![Alt text](image-6.png)
+
+- Cloud Front
+
+![Alt text](image-7.png)
+
+- 비교 분석 
+
+|Metrics|S3|Cloud Front|
+|------|---|---|
+|FCP|1.2 s|0.8 s|
+|LCP|1.8 s|2.0 s|
+|TBT|10 ms|0 ms|
+|CLS|0|0|
+|Speed Index|1.2 s|0.8 s|
+
+#### CDN 도입 후 개선사항
+
+1. 속도 개선
+- cloud front 배포 시 페이지 로드 속도 평균 50% 이상 단축 
+
+2. 웹 성능 점수 향상
+- lighthouse 지표 전체적으로 향상
+
+3. 서버 부하 감소
+- CDN 캐싱으로 서버의 직접 요청 처리량 감소
