@@ -18,11 +18,11 @@
 
 #### 4. AWS 자격증명 구성
 - GitHub Secrets에서 제공된 키를 활용하여 S3 및 CloudFront와의 통신을 인증한다. 
-- AWS_ACCESS_KEY_ID: IAM 계정 생성시 발급받은 액세스 키
-- AWS_SECRET_ACCESS_KEY: IAM 계정 생성시 발급받은 비밀 액세스 키
-- AWS_REGION: S3를 세팅한 리전(지역)의 코드
-- S3_BUCKET_NAME: 빌드 산출물을 업로드할 S3 버킷 이름
-- CLOUDFRONT_DISTRIBUTION_ID: S3와 연결된 CloudFront 배포 ID
+- `AWS_ACCESS_KEY_ID`: IAM 계정 생성시 발급받은 액세스 키
+- `AWS_SECRET_ACCESS_KEY`: IAM 계정 생성시 발급받은 비밀 액세스 키
+- `AWS_REGION`: S3를 세팅한 리전(지역)의 코드
+- `S3_BUCKET_NAME`: 빌드 산출물을 업로드할 S3 버킷 이름
+- `CLOUDFRONT_DISTRIBUTION_ID`: S3와 연결된 CloudFront 배포 ID
 
 #### 5. S3 버킷 동기화 
 - 빌드된 파일을 S3 버킷과 동기화 `aws s3 sync out/ s3://${{ secrets.S3_BUCKET_NAME }} --delete` 명령어로 파일 업로드 및 불필요한 파일은 삭제한다.
