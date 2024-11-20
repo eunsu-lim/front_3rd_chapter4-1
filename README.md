@@ -77,16 +77,18 @@
 #### S3와 CloudFront 비교 
 
 - S3 
+    - 상대적으로 응답 속도가 느림
 
 ![Alt text](image-3.png)
-   - 상대적으로 응답 속도가 느림
+   
 
 - CloudFront 
+    - 응답 속도 빨라짐
+    - 캐시 적용 (X-cache)
+    - 파일 크기 축소
 
 ![Alt text](image-5.png)
-   - 응답 속도 빨라짐
-   - 캐시 적용 (X-cache)
-   - 파일 크기 축소
+  
 
 #### 성능 비교 (Chrome DevTools Network tab)
 
