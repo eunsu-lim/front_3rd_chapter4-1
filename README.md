@@ -92,7 +92,7 @@
 
 #### 성능 비교 (Chrome DevTools Network tab)
 
-- 크기 (Network tab 비교)
+- 크기
 
 |파일|S3|Cloud Front|
 |------|---|---|
@@ -100,8 +100,8 @@
 |CSS|9.0 kB|2.9 kB|
 |JS|166 kB|50.5 kB|
 
-- 시간 (Network tab 비교) 
-
+- 시간
+  
 |파일|S3|Cloud Front|
 |------|---|---|
 |HTML|2.71 s|76 ms|
